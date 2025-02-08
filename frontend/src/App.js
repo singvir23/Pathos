@@ -81,6 +81,7 @@ function ScreenEmotionDetector() {
             
             // Update detected emotions
             setDetectedEmotions(data);
+            drawFacesWithEmotions();
 
           } catch (error) {
             console.error('Emotion detection error:', error);
@@ -193,19 +194,21 @@ function ScreenEmotionDetector() {
         </button>
       </div>
 
-      <video 
-        ref={videoRef} 
-        className="hidden" 
-        autoPlay 
-        playsInline 
-      />
-
-      <canvas
-        ref={canvasRef}
-        className="max-w-full max-h-[600px] w-full border-2 border-white"
-        width="1280"
-        height="720"
-      />
+      <div className="relative w-full max-w-full max-h-[600px]">
+        <video 
+          ref={videoRef} 
+          className="absolute top-0 left-0 w-full h-full object-contain" 
+          autoPlay 
+          playsInline 
+        />
+        <canvas
+          ref={canvasRef}
+          className="absolute top-0 left-0 w-full h-full"
+          style={{ pointerEvents: 'none' }}
+          width="1280"
+          height="720"
+        />
+      </div>
 
       {detectedEmotions.length > 0 && (
         <div className="mt-4 w-full max-w-md">
