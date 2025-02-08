@@ -6,7 +6,8 @@ import numpy as np
 from base64 import b64decode
 
 app = Flask(__name__)
-CORS(app)  # Enable CORS to allow cross-origin requests
+CORS(app, resources={r"/*": {"origins": "*"}})
+  # Enable CORS to allow cross-origin requests
 
 @app.route('/analyze', methods=['POST'])
 def analyze_emotion():
