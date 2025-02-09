@@ -8,24 +8,23 @@ function ScreenEmotionDetector() {
   const [isCapturing, setIsCapturing] = useState(false);
   const animationFrameRef = useRef(null);
 
-  // Emotion color mapping
   const getEmotionColor = useCallback((emotion) => {
     const colors = {
-      happy: '#4CAF50',    // Green
-      sad: '#2196F3',      // Blue
-      angry: '#F44336',    // Red
-      fear: '#9C27B0',     // Purple
-      surprise: '#FFC107', // Amber
-      disgust: '#795548',  // Brown
-      neutral: '#9E9E9E'   // Grey
+      happy: '#4CAF50',    
+      sad: '#2196F3',     
+      angry: '#F44336',    
+      fear: '#9C27B0',    
+      surprise: '#FFC107', 
+      disgust: '#795548',  
+      neutral: '#9E9E9E'   
     };
     return colors[emotion?.toLowerCase()] || colors.neutral;
   }, []);
 
-  // Continuous screen capture and emotion detection
+
   const startContinuousCapture = useCallback(async () => {
     try {
-      // Request screen capture stream
+  
       const stream = await navigator.mediaDevices.getDisplayMedia({
         video: { 
           displaySurface: 'window', 
@@ -45,26 +44,25 @@ function ScreenEmotionDetector() {
 
       video.play();
 
-      // Setup canvas
+     
       const canvas = canvasRef.current;
       const context = canvas.getContext('2d');
 
-      // Continuous frame processing
       const processFrame = async () => {
-        // Ensure video and canvas are ready
+        
         if (video.videoWidth > 0 && video.videoHeight > 0) {
-          // Set canvas to video dimensions
+         
           canvas.width = video.videoWidth;
           canvas.height = video.videoHeight;
 
-          // Draw current video frame
+        
           context.drawImage(video, 0, 0, canvas.width, canvas.height);
 
-          // Convert to base64
+    
           const base64Frame = canvas.toDataURL('image/jpeg');
 
           try {
-            // Send to backend for emotion detection
+ 
             const response = await fetch('http://localhost:3000/analyze_screen', {
               method: 'POST',
               headers: {
@@ -79,7 +77,7 @@ function ScreenEmotionDetector() {
 
             const data = await response.json();
             
-            // Update detected emotions
+ 
             setDetectedEmotions(data);
             drawFacesWithEmotions();
 
@@ -88,15 +86,15 @@ function ScreenEmotionDetector() {
           }
         }
 
-        // Continue processing frames
+
         animationFrameRef.current = requestAnimationFrame(processFrame);
       };
 
-      // Start processing
+
       setIsCapturing(true);
       processFrame();
 
-      // Handle stream ended
+
       stream.getVideoTracks()[0].onended = stopCapture;
 
     } catch (error) {
@@ -105,14 +103,13 @@ function ScreenEmotionDetector() {
     }
   }, []);
 
-  // Stop capture and release resources
+ 
   const stopCapture = useCallback(() => {
     // Cancel animation frame
     if (animationFrameRef.current) {
       cancelAnimationFrame(animationFrameRef.current);
     }
 
-    // Stop video and tracks
     const video = videoRef.current;
     if (video && video.srcObject) {
       const tracks = video.srcObject.getTracks();
@@ -120,26 +117,20 @@ function ScreenEmotionDetector() {
       video.srcObject = null;
     }
 
-    // Reset states
     setIsCapturing(false);
     setDetectedEmotions([]);
   }, []);
 
-  // Draw faces with emotion colors
   const drawFacesWithEmotions = useCallback(() => {
     const canvas = canvasRef.current;
     const context = canvas.getContext('2d');
 
-    // Clear previous drawings
     context.clearRect(0, 0, canvas.width, canvas.height);
 
-    // Redraw video frame
     const video = videoRef.current;
     if (video && video.videoWidth > 0) {
       context.drawImage(video, 0, 0, canvas.width, canvas.height);
     }
-
-    // Draw rectangles for each detected face
     detectedEmotions.forEach(emotion => {
       const { x, y, w, h } = emotion.region;
       
@@ -152,14 +143,11 @@ function ScreenEmotionDetector() {
       const scaledW = w * scaleX;
       const scaledH = h * scaleY;
 
-      // Draw colored rectangle
       context.strokeStyle = getEmotionColor(emotion.dominant_emotion);
       context.lineWidth = 4;
       context.shadowBlur = 10;
       context.shadowColor = getEmotionColor(emotion.dominant_emotion);
       context.strokeRect(scaledX, scaledY, scaledW, scaledH);
-
-      // Add emotion label
       context.font = '16px Arial';
       context.fillStyle = getEmotionColor(emotion.dominant_emotion);
       context.fillText(

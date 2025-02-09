@@ -15,10 +15,9 @@ let captureStream = null;
 let currentRegion = null;
 let videoElement, canvasElement, canvasContext, emotionsContainer;
 
-// Emotion buffering variables
 let emotionBuffer = [];
 let lastUpdateTime = 0;
-const UPDATE_INTERVAL = 2000; // 2 seconds in milliseconds
+const UPDATE_INTERVAL = 2000;
 
 document.addEventListener('DOMContentLoaded', () => {
   videoElement = document.getElementById('videoElement');
@@ -44,7 +43,7 @@ async function startCapture() {
         displaySurface: 'window',
         width: { ideal: 1920, max: 3840 },
         height: { ideal: 1080, max: 2160 },
-        frameRate: { ideal: 60, max: 60 }  // Increased frame rate
+        frameRate: { ideal: 60, max: 60 }  
       },
       audio: false
     });
@@ -66,7 +65,7 @@ async function startCapture() {
     document.getElementById('startButton').disabled = true;
     document.getElementById('stopButton').disabled = false;
 
-    // Start separate processes for video and emotion detection
+    
     startVideoProcessing();
     startEmotionProcessing();
 
@@ -160,7 +159,7 @@ function startEmotionProcessing() {
       console.error('Emotion detection error:', err);
     }
 
-    emotionProcessingId = setTimeout(processEmotions, 100); // Adjust timing as needed
+    emotionProcessingId = setTimeout(processEmotions, 100); 
   };
 
   processEmotions();
