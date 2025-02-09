@@ -40,7 +40,7 @@ const emotionColors = {
         const base64Frame = canvas.toDataURL('image/jpeg');
   
         try {
-          const response = await fetch('http://localhost:3000/analyze_screen', {
+          const response = await fetch('http://localhost:5001/analyze_screen', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json'
