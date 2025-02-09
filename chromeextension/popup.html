@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Screen Emotion Detector</title>
+  <style>
+    body {
+      width: 800px;
+      height: 600px;
+      padding: 20px;
+      background-color: black;
+      color: white;
+    }
+    .button-container {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+    button {
+      padding: 8px 16px;
+      border-radius: 4px;
+      border: none;
+      color: white;
+      cursor: pointer;
+    }
+    .start-button { background-color: #3b82f6; }
+    .stop-button { background-color: #ef4444; }
+    .video-container {
+      position: relative;
+      width: 100%;
+      height: 400px;
+    }
+    #videoElement, #canvasElement {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+    #emotionsContainer {
+      margin-top: 16px;
+    }
+    .emotion-card {
+      margin-bottom: 8px;
+      padding: 8px;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body>
+  <div class="button-container">
+    <button id="startButton" class="start-button">Start Continuous Capture</button>
+    <button id="stopButton" class="stop-button">Stop Capture</button>
+  </div>
+  <div class="video-container">
+    <video id="videoElement" autoplay playsinline></video>
+    <canvas id="canvasElement"></canvas>
+  </div>
+  <div id="emotionsContainer"></div>
+  <script src="popup.js"></script>
+</body>
+</html>

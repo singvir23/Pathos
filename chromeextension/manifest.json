@@ -1,0 +1,17 @@
+{
+    "manifest_version": 3,
+    "name": "Screen Emotion Detector",
+    "version": "1.0",
+    "description": "Detects emotions in screen captures",
+    "permissions": [
+      "activeTab",
+      "desktopCapture",
+      "storage"
+    ],
+    "action": {
+      "default_popup": "popup.html"
+    },
+    "background": {
+      "service_worker": "background.js"
+    }
+  }
