@@ -1,0 +1,38 @@
+{
+    "manifest_version": 3,
+    "name": "Emotion Detector",
+    "version": "1.0",
+    "description": "Detects and displays emotions on faces in your screen",
+    "permissions": [
+      "activeTab",
+      "scripting",
+      "tabs",
+      "storage"
+    ],
+    "host_permissions": [
+      "http://localhost:3002/*"
+    ],
+    "action": {
+      "default_popup": "popup/popup.html",
+      "default_icon": {
+        "16": "assets/icon16.png",
+        "48": "assets/icon48.png",
+        "128": "assets/icon128.png"
+      }
+    },
+    "background": {
+      "service_worker": "background.js"
+    },
+    "content_scripts": [
+      {
+        "matches": ["<all_urls>"],
+        "js": ["content/content.js"],
+        "css": ["content/content.css"]
+      }
+    ],
+    "icons": {
+      "16": "assets/icon16.png",
+      "48": "assets/icon48.png",
+      "128": "assets/icon128.png"
+    }
+  }

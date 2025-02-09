@@ -39,7 +39,7 @@ function EmotionDetector() {
       console.log('Sending frame to API. Frame length:', base64Frame.length);
       
       // Send to Flask backend using fetch
-      const response = await fetch('http://localhost:3000/analyze', {
+      const response = await fetch('http://localhost:3002/analyze', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
